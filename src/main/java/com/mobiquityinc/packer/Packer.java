@@ -27,8 +27,11 @@ import com.mobiquityinc.util.PackerUtils;
  */
 public class Packer {
 	
-	// Set default 'knapsack' as default solution strategy
-	public static String solutionStrategy = PackerConstants.KNAPSACK_STRATEGY;
+	/*
+	 * Get strategy for this solution; 
+	 * It will be used in the solution factory to get Solution approach (e.g. Knapsack or Subset combinations).
+	 */
+	private static String strategy;
 	
     public static void main(String[] args) {
         if (PackerUtils.isEmpty(args)) {
@@ -38,16 +41,24 @@ public class Packer {
         System.out.println(pack(args[0]));
     }
     
+    /**
+     * This static method accepts the absolute path to a test file as a String. 
+     * It does return the solution as a String.
+     * 
+     * It will throw APIException if incorrect parameters are being passed.
+     * 
+     * @param filePath
+     * @return output/result
+     */
     public static String pack(String filePath) {
-        return processPacking(filePath);
+        return new Packer().processPacking(filePath);
     }
 
-	private static String processPacking(String filePath) {
+	private String processPacking(String filePath) {
 		List<List<Packet>> optimumResults = new ArrayList<>();
-		List<Package> packages = getInputParser().parse(filePath);
-		for (Package lPackage : packages) {
-			optimumResults.add(getSolutionStrategy(lPackage).findOptimumPackets());
-		}
+		getInputParser().parse(filePath).stream()
+			.forEach(lPackage -> optimumResults.add(getSolutionStrategy(lPackage).findOptimumPackets()));
+		
 		return OutputGenerator.getOutput(optimumResults);
 	}
 
@@ -55,17 +66,36 @@ public class Packer {
 	 * Get the solution strategy for this problem.
 	 * 
 	 * Also if in future we want to switch to any other solution approach; 
-	 * it will help us to maintain our application.
+	 * It will help us to maintain our application.
 	 * 
 	 * @param pPackage
 	 * @return SolutionStrategy - Knapsack/Others
 	 */
-	private static SolutionStrategy getSolutionStrategy(Package pPackage) {
-		return SolutionFactory.getInstance().getSolutionStrategy(solutionStrategy, pPackage);
+	private SolutionStrategy getSolutionStrategy(Package pPackage) {
+		// Get singleton instance of SolutionFactory. Then get the SolutionStrategy.
+		return SolutionFactory.getInstance().getSolutionStrategy(getStrategy(), pPackage);
 	}
 
-	private static InputParser getInputParser() {
+	private InputParser getInputParser() {
 		// Get singleton instance of InputParser.
 		return InputParser.getInstance();
+	}
+
+	/**
+	 * Get strategy for this solution; 
+	 * It will be used in the solution factory to get Solution approach (e.g. Knapsack or Subset combinations).
+	 * 
+	 * @return solution strategy
+	 */
+	private String getStrategy() {
+		if (PackerUtils.isBlank(strategy)) {
+			// Set default 'knapsack' as default solution strategy
+			strategy = PackerConstants.KNAPSACK_STRATEGY;
+		}
+		return strategy;
+	}
+
+	public static void setStrategy(String pStrategy) {
+		strategy = pStrategy;
 	}
 }

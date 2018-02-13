@@ -41,7 +41,7 @@ public class PackerTestCase {
 		StringBuilder expectedOutput = new StringBuilder();
 		expectedOutput.append("4")
 			.append(newLine).append("-")
-			.append(newLine).append("7,2")
+			.append(newLine).append("2,7")
 			.append(newLine).append("8,9");
 		
 		assertEquals(expectedOutput.toString(), results);

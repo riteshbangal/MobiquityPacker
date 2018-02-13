@@ -25,6 +25,12 @@ import com.mobiquityinc.util.PackerUtils;
  * It is responsible to validate and parse input file path. 
  * Get file content after reading and convert it into list of Packets.
  * 
+ * This program should accept as its first argument a path to a filename. The input file contains several lines. 
+ * Each line is one test case. Each line contains the weight that the package can take (before the colon) 
+ * and the list of things you need to choose. 
+ * Each thing is enclosed in parentheses where the 1st number is a thing's index number,
+ * the 2nd is its weight and the 3rd is its cost.
+ * 
  * @author - Ritesh
  * @version 1.0
  * @since <11-February-2018>
@@ -70,6 +76,7 @@ public class InputParser {
 
 	private String getFileContent(String filePath) {
         try {
+        	// As euro symbol is not supported by UTF_8 or ISO_8859_1.
         	//return new String(Files.readAllBytes(Paths.get(filePath)), StandardCharsets.ISO_8859_1);
 			return new String(Files.readAllBytes(Paths.get(filePath)), PackerConstants.WINDOWS_1252_CHARSET);
         } catch (IOException e) {
@@ -94,12 +101,17 @@ public class InputParser {
         }
         
         int weight = Integer.parseInt(matcher.group(1));
-        validateWeight(weight);
+        validatePackageWeight(weight);
         List<Packet> packets = getPackets(weight, matcher.group(2));
         return new Package(weight, packets);
     }
 
-	private void validateWeight(int weight) {
+	/**
+	 * Constraints: Max weight of a package is <= 100
+	 * 
+	 * @param package's weight
+	 */
+	private void validatePackageWeight(int weight) {
         if (weight > PackerConstants.MAX_PACKAGE_WEIGHT) {
             throw new APIException("Package weight should be less or equals to " + PackerConstants.MAX_PACKAGE_WEIGHT + ".");
         }
@@ -121,14 +133,14 @@ public class InputParser {
 	private Packet getPacket(String parsedPacketString) {
 		String[] parsedPacket = parsedPacket(parsedPacketString).split(PackerConstants.COMMA);
 		if (PackerUtils.isEmpty(parsedPacket) && parsedPacket.length != PackerConstants.PARSED_PACKET_TOKENS_LENGTH) {
-			throw new APIException("Packet string should be in format: (XX,XX.XX,€XX).");
+			throw new APIException("Packet string should be in format: (XX,XX.XX,$XX).");
 		}
 		
 		int index = Integer.parseInt(parsedPacket[0]);
 		double weight = Double.parseDouble(parsedPacket[1]);
 		validatePacketWeight(weight);
 		int price = Integer.parseInt(parsedPacket[2]);
-		validatePrice(price);
+		validatePacketPrice(price);
 		return new Packet(index, weight, price);
 	}
 
@@ -140,18 +152,33 @@ public class InputParser {
 		return parsedPacketCurrency;
 	}
 	
+	/**
+	 * Constraints: Max weight of a packet is <= 100.00
+	 * 
+	 * @param packet's weight
+	 */
 	private void validatePacketWeight(double weight) {
         if (weight > PackerConstants.MAX_PACKET_WEIGHT) {
             throw new APIException("Packet weight should be less or equals to " + PackerConstants.MAX_PACKET_WEIGHT + ".");
         }
     }
 	
-	private void validatePrice(int price) {
+	/**
+	 * Constraints: Max cost of a packet is <= 100 
+	 * 
+	 * @param packet's price
+	 */
+	private void validatePacketPrice(int price) {
         if (price > PackerConstants.MAX_PACKET_PRICE) {
             throw new APIException("Packet price should be less or equals to " + PackerConstants.MAX_PACKET_PRICE + ".");
         }
     }
 
+	/**
+	 * Constraints: There might be up to 15 items you need to choose from.
+	 * 
+	 * @param number of packets in a package
+	 */
     private void validatePacketsSize(List<Packet> packets) {
         if (packets.size() > PackerConstants.MAX_PACKETS_SIZE) {
             throw new APIException("Number of packets inside a package should not be more than " + PackerConstants.MAX_PACKETS_SIZE + ".");

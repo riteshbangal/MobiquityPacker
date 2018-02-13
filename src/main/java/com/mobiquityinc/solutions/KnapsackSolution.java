@@ -14,7 +14,7 @@ import com.mobiquityinc.util.PackerUtils;
 /**
  * DESCRIPTION - This class is part of Mobiquity's Package Challenge assignment.
  * 
- * It provide knapsack solution strategy. A Dynamic Programming based solution for 0-1 Knapsack problem
+ * It provide knapsack solution strategy. A recursive implementation of 0-1 Knapsack problem.
  *
  * @author - Ritesh
  * @version 1.0
@@ -45,15 +45,15 @@ public class KnapsackSolution implements SolutionStrategy {
 	@Override
 	public List<Packet> findOptimumPackets() {
 		populateKnapsackTable(capacity, packets.size() - 1);
-        return getFilteredItems();
+        return getFilteredPackets();
 	}
 	
 	/**
-	 * A Dynamic Programming based solution for 0-1 Knapsack problem
+	 * Implemented Knapsack Algorithm. Traverse back for selecting the cells. 
 	 * 
 	 * @return list of optimum packets
 	 */
-	private List<Packet> getFilteredItems() {
+	private List<Packet> getFilteredPackets() {
         List<Packet> filteredPackets = new ArrayList<>();
         int i = packets.size() - 1;
         int j = capacity;
@@ -69,6 +69,14 @@ public class KnapsackSolution implements SolutionStrategy {
         return filteredPackets;
     }
 
+	/**
+	 * Implemented Knapsack Algorithm. Construct knapsack matrix.
+	 * It's a recursive implementation of 0-1 Knapsack problem.
+	 * 
+	 * @param capacity
+	 * @param packet's size -1
+	 * @return
+	 */
 	private double populateKnapsackTable(int j, int i) {
         if (i < 0 || j < 0) {
             return 0;

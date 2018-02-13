@@ -52,6 +52,7 @@ public class SolutionFactory {
 			 * and get the optimized ones as a solution of this problem.  
 			 */
 		} else if (PackerConstants.KNAPSACK_STRATEGY.equalsIgnoreCase(strategy)) {
+			// A recursive implementation of 0-1 Knapsack problem.
 			return new KnapsackSolution(pPackage);
 		}
 		// Default solution strategy
