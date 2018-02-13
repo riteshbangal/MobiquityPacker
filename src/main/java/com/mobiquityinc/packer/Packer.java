@@ -45,7 +45,7 @@ public class Packer {
      * This static method accepts the absolute path to a test file as a String. 
      * It does return the solution as a String.
      * 
-     * It will throw APIException if incorrect parameters are being passed.
+     * It will throw APIException (Run-time Exception) if incorrect parameters are being passed.
      * 
      * @param filePath
      * @return output/result
