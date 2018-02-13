@@ -124,7 +124,7 @@ public class InputParser {
 		
 		List<Packet> packets = PackerConstants.PACKETS_PATTERN.splitAsStream(parsedPacketString)
                 .map(this::getPacket)
-                .sorted((i1, i2) -> Double.compare(i1.weight, i2.weight))
+                .sorted((i1, i2) -> Double.compare(i1.getWeight(), i2.getWeight()))
                 .collect(Collectors.toList());
 		validatePacketsSize(packets);
 		return packets;	

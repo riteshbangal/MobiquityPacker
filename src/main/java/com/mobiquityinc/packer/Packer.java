@@ -90,7 +90,7 @@ public class Packer {
 	private String getStrategy() {
 		if (PackerUtils.isBlank(strategy)) {
 			// Set default 'knapsack' as default solution strategy
-			strategy = PackerConstants.KNAPSACK_STRATEGY;
+			strategy = PackerConstants.KNAPSACK_RECURSIVE_STRATEGY;
 		}
 		return strategy;
 	}

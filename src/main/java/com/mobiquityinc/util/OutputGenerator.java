@@ -50,7 +50,7 @@ public class OutputGenerator {
 			return PackerConstants.EMPTY_ITEMS_MARK;
 		}
 		return packets.stream()
-				.map(packet -> packet.index).sorted().map(Objects::toString)
+				.map(packet -> packet.getIndex()).sorted().map(Objects::toString)
 				.collect(Collectors.joining(PackerConstants.COMMA));
 	}
 }

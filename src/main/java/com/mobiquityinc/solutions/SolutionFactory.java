@@ -40,10 +40,10 @@ public class SolutionFactory {
 	 * 
 	 * @param strategy
 	 * @param pPackage
-	 * @return SolutionStrategy - Knapsack/Others
+	 * @return SolutionStrategy - Knapsack-Recursion/Knapsack-Dynamic Programming/Others
 	 */
 	public SolutionStrategy getSolutionStrategy(String strategy, Package pPackage) {
-		if (PackerConstants.SUBSET_STRATEGY.equalsIgnoreCase(strategy)) {
+		if (PackerConstants.SUBSET_COMBINATION_STRATEGY.equalsIgnoreCase(strategy)) {
 			/*
 			 * Note: It's a provision for future. If you want to switch to any other solutions. 
 			 * 
@@ -51,11 +51,13 @@ public class SolutionFactory {
 			 * which will first find out all possible subsets/combinations 
 			 * and get the optimized ones as a solution of this problem.  
 			 */
-		} else if (PackerConstants.KNAPSACK_STRATEGY.equalsIgnoreCase(strategy)) {
+		} else if (PackerConstants.KNAPSACK_RECURSIVE_STRATEGY.equalsIgnoreCase(strategy)) {
 			// A recursive implementation of 0-1 Knapsack problem.
-			return new KnapsackSolution(pPackage);
+			return new KnapsackRecursiveSolution(pPackage);
+		} else if (PackerConstants.KNAPSACK_DYNAMIC_PROGRAMMING_STRATEGY.equalsIgnoreCase(strategy)) {
+			// A dynamic programming implementation of 0-1 Knapsack problem.
 		}
 		// Default solution strategy
-		return new KnapsackSolution(pPackage);
+		return new KnapsackRecursiveSolution(pPackage);
 	}
 }

@@ -18,9 +18,9 @@ import com.mobiquityinc.util.PackerUtils;
  */
 public final class Packet {
 
-	public final int index;
-    public final double weight;
-    public final int price;
+	private final int index;
+	private final double weight;
+    private final int price;
 
     public Packet(int index, double weight, int price) {
         this.index = index;

@@ -20,13 +20,13 @@ import com.mobiquityinc.util.PackerUtils;
  * @version 1.0
  * @since <11-February-2018>
  */
-public class KnapsackSolution implements SolutionStrategy {
+public class KnapsackRecursiveSolution implements SolutionStrategy {
 
 	private int capacity;
 	private List<Packet> packets;
 	private final double[][] knapsackTable;
 	
-	public KnapsackSolution(Package pPackage) {
+	public KnapsackRecursiveSolution(Package pPackage) {
 		capacity = pPackage.getCapacity();
 		packets = pPackage.getPackets();
 		knapsackTable = createTable();
@@ -48,11 +48,6 @@ public class KnapsackSolution implements SolutionStrategy {
         return getFilteredPackets();
 	}
 	
-	/**
-	 * Implemented Knapsack Algorithm. Traverse back for selecting the cells. 
-	 * 
-	 * @return list of optimum packets
-	 */
 	private List<Packet> getFilteredPackets() {
         List<Packet> filteredPackets = new ArrayList<>();
         int i = packets.size() - 1;
@@ -62,7 +57,7 @@ public class KnapsackSolution implements SolutionStrategy {
             double without = i == 0 ? 0 : knapsackTable[j][i - 1];
             if (!PackerUtils.equals(knapsackTable[j][i], without)) {
             	filteredPackets.add(packet);
-                j -= (int) packet.weight;
+                j -= (int) packet.getWeight();
             }
             i--;
         }
@@ -85,10 +80,10 @@ public class KnapsackSolution implements SolutionStrategy {
         Packet packet = packets.get(i);
         double with, without, cell = knapsackTable[j][i];
         if (cell == -1) {
-            if (packet.weight > j) {
+            if (packet.getWeight() > j) {
                 with = -1;
             } else {
-                with = packet.price + populateKnapsackTable(j - (int) packet.weight, i - 1);
+                with = packet.getPrice() + populateKnapsackTable(j - (int) packet.getWeight(), i - 1);
             }
             without = populateKnapsackTable(j, i - 1);
             cell = Math.max(with, without);

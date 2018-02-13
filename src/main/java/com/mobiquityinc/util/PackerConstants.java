@@ -27,8 +27,9 @@ public class PackerConstants {
 	public static final String EMPTY_ITEMS_MARK = "-";
 	public static final String COMMA = ",";
 	
-	public static final String KNAPSACK_STRATEGY = "knapsack";
-	public static final String SUBSET_STRATEGY 	 = "subset";
+	public static final String KNAPSACK_RECURSIVE_STRATEGY = "knapsackRecursive";
+	public static final String KNAPSACK_DYNAMIC_PROGRAMMING_STRATEGY = "knapsackDynamicProgramming";
+	public static final String SUBSET_COMBINATION_STRATEGY = "subsetCombinations";
 	
 	public static final String PARENTHESES_REGEX = "\\(|\\)";
 	public static final String CURRENCY_REGEX = "\\$|\\â‚¬|\\€";
