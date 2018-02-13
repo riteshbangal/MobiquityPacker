@@ -1,0 +1,35 @@
+.gradle
+/target/
+/build/
+/bin/
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS/Eclipse IDE ###
+.settings
+.apt_generated
+.factorypath
+.springBeans
+.classpath
+.project
+
+### IntelliJ IDEA IDE ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
+
+### NetBeans IDE ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### Ansible ###
+*.retry
+/uibuild/
+~*.xlsx
+
+
